@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PC Build Hub</title>
+  <title>PC Build Hub - Custom PC Building Made Easy</title>
+  <meta name="description" content="PC Build Hub helps you find compatible components and build your dream gaming or workstation PC with expert recommendations and real-time pricing.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
   <div class="container">
-    <a class="navbar-brand" href="#">PC Build Hub</a>
+    <a class="navbar-brand" href="#"><i class="fas fa-desktop"></i> PC Build Hub</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center" href="/cpus"><i class="fas fa-microchip me-2"></i> CPUs</a>
         </li>
@@ -27,7 +29,7 @@
           <a class="nav-link d-flex align-items-center" href="/motherboards"><i class="fas fa-cogs me-2"></i> Motherboards</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center" href="/rams"><i class="fas fa-microchip me-2"></i> RAM</a>
+          <a class="nav-link d-flex align-items-center" href="/rams"><i class="fas fa-memory me-2"></i> RAM</a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center" href="/power-supplies"><i class="fas fa-plug me-2"></i> Power Supplies</a>
@@ -36,57 +38,304 @@
           <a class="nav-link d-flex align-items-center" href="/pc-builds"><i class="fas fa-desktop me-2"></i> PC Builds</a>
         </li>
       </ul>
+      <div class="d-flex">
+        <a href="/login" class="btn btn-outline-light me-2">Login</a>
+        <a href="/register" class="btn btn-light">Sign Up</a>
+      </div>
     </div>
   </div>
 </nav>
 
 <header>
+  <div class="floating-icons">
+    <i class="fas fa-microchip floating-icon" style="top: 15%; left: 10%; font-size: 2rem;"></i>
+    <i class="fas fa-memory floating-icon" style="top: 25%; left: 85%; font-size: 3rem;"></i>
+    <i class="fas fa-fan floating-icon" style="top: 60%; left: 5%; font-size: 2.5rem;"></i>
+    <i class="fas fa-hdd floating-icon" style="top: 70%; left: 75%; font-size: 2rem;"></i>
+    <i class="fas fa-desktop floating-icon" style="top: 40%; left: 50%; font-size: 3.5rem;"></i>
+  </div>
+
   <div class="container">
-    <h1>Welcome to PC Build Hub</h1>
-    <p class="lead">Find and configure the best PC components for your build!</p>
+    <h1>Build Your Dream PC</h1>
+    <p class="lead">Find compatible components, compare performance, and create custom PC builds tailored to your needs and budget</p>
+    <div class="d-flex justify-content-center gap-3">
+      <a href="/pc-builder" class="btn btn-light btn-lg shadow">PC Builder Tool <i class="fas fa-arrow-right ms-2"></i></a>
+      <a href="/popular-builds" class="btn btn-outline-light btn-lg">View Popular Builds</a>
+    </div>
   </div>
 </header>
 
-<div class="container mt-5 content">
-  <div class="row text-center">
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-lg hover-card border-light">
-        <div class="card-body text-center">
-          <i class="fas fa-microchip fa-4x mb-3 text-primary"></i> <!-- CPU Icon -->
-          <h5 class="card-title mb-3">Browse CPUs</h5>
-          <p class="card-text mb-4">Find the best processors for your build.</p>
-          <a href="/cpus" class="btn btn-primary btn-lg shadow-sm">View CPUs</a>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <div class="pc-builder-tool mb-5">
+        <h2 class="text-center mb-4">Quick Build Configurator</h2>
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <label class="mb-2 fw-bold">What will you use your PC for?</label>
+            <div>
+              <span class="component-badge"><i class="fas fa-gamepad me-2"></i>Gaming</span>
+              <span class="component-badge"><i class="fas fa-code me-2"></i>Programming</span>
+              <span class="component-badge"><i class="fas fa-photo-video me-2"></i>Content Creation</span>
+              <span class="component-badge"><i class="fas fa-briefcase me-2"></i>Office Work</span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="mb-2 fw-bold">Your Budget</label>
+            <input type="range" class="form-range" min="500" max="5000" step="100" value="1500" id="budgetRange">
+            <div class="d-flex justify-content-between">
+              <span>$500</span>
+              <span class="fw-bold">$<span id="budgetValue">1500</span></span>
+              <span>$5000+</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-lg hover-card border-light">
-        <div class="card-body text-center">
-          <i class="fas fa-memory fa-4x mb-3 text-danger"></i> <!-- GPU Icon -->
-          <h5 class="card-title mb-3">Explore GPUs</h5>
-          <p class="card-text mb-4">Select from a variety of powerful graphics cards.</p>
-          <a href="/gpus" class="btn btn-danger btn-lg shadow-sm">View GPUs</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4">
-      <div class="card shadow-lg hover-card border-light">
-        <div class="card-body text-center">
-          <i class="fas fa-cogs fa-4x mb-3 text-success"></i> <!-- Motherboard Icon -->
-          <h5 class="card-title mb-3">Motherboards</h5>
-          <p class="card-text mb-4">Find compatible motherboards for your setup.</p>
-          <a href="/motherboards" class="btn btn-success btn-lg shadow-sm">View Motherboards</a>
+        <div class="text-center">
+          <button class="btn btn-primary btn-lg px-5">Generate Build <i class="fas fa-bolt ms-2"></i></button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<div class="container mt-3 content">
+  <h2 class="text-center mb-5">Browse Components By Category</h2>
+  <div class="row text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-microchip fa-4x mb-3 text-primary"></i>
+          <h5 class="card-title mb-3">Processors</h5>
+          <p class="card-text mb-4">Find the perfect CPU to power your build, from budget options to high-end gaming processors.</p>
+          <a href="/cpus" class="btn btn-primary btn-lg shadow-sm">View CPUs</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-memory fa-4x mb-3 text-danger"></i>
+          <h5 class="card-title mb-3">Graphics Cards</h5>
+          <p class="card-text mb-4">Explore the latest GPUs for gaming, rendering, and professional workloads.</p>
+          <a href="/gpus" class="btn btn-danger btn-lg shadow-sm">View GPUs</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-cogs fa-4x mb-3 text-success"></i>
+          <h5 class="card-title mb-3">Motherboards</h5>
+          <p class="card-text mb-4">Find compatible motherboards with features that match your performance needs.</p>
+          <a href="/motherboards" class="btn btn-success btn-lg shadow-sm">View Motherboards</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row text-center mt-4">
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-memory fa-3x mb-3 text-info"></i>
+          <h5 class="card-title mb-3">RAM</h5>
+          <p class="card-text">Speed up your system with the right memory configuration.</p>
+          <a href="/rams" class="btn btn-info btn-lg shadow-sm">View RAM</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-hdd fa-3x mb-3 text-warning"></i>
+          <h5 class="card-title mb-3">Storage</h5>
+          <p class="card-text">SSDs and HDDs for all your storage needs.</p>
+          <a href="/storage" class="btn btn-warning btn-lg shadow-sm">View Storage</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-plug fa-3x mb-3" style="color: #9c27b0;"></i>
+          <h5 class="card-title mb-3">Power Supplies</h5>
+          <p class="card-text">Reliable power for your system components.</p>
+          <a href="/power-supplies" class="btn btn-lg shadow-sm" style="background-color: #9c27b0; color: white;">View PSUs</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card shadow-lg hover-card">
+        <div class="card-body text-center">
+          <i class="fas fa-wind fa-3x mb-3" style="color: #795548;"></i>
+          <h5 class="card-title mb-3">Cooling</h5>
+          <p class="card-text">Keep your components cool under pressure.</p>
+          <a href="/cooling" class="btn btn-lg shadow-sm" style="background-color: #795548; color: white;">View Cooling</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="container">
+    <h2 class="text-center mb-5">Why Choose PC Build Hub?</h2>
+    <div class="row text-center">
+      <div class="col-md-4 mb-5">
+        <div class="feature-icon">
+          <i class="fas fa-check-circle fa-3x text-primary"></i>
+        </div>
+        <h3 class="feature-title">Compatibility Guarantee</h3>
+        <p>Our intelligent system ensures all components in your build work together perfectly, eliminating compatibility issues.</p>
+      </div>
+      <div class="col-md-4 mb-5">
+        <div class="feature-icon">
+          <i class="fas fa-bolt fa-3x text-danger"></i>
+        </div>
+        <h3 class="feature-title">Performance Benchmarks</h3>
+        <p>Compare real-world performance data to make informed decisions about your hardware choices.</p>
+      </div>
+      <div class="col-md-4 mb-5">
+        <div class="feature-icon">
+          <i class="fas fa-dollar-sign fa-3x text-success"></i>
+        </div>
+        <h3 class="feature-title">Price Tracking</h3>
+        <p>Find the best deals with our real-time price tracking from multiple retailers.</p>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-lg-6 mb-4">
+        <h3 class="mb-4">Popular CPU Performance Comparison</h3>
+        <div>
+          <p class="mb-1">AMD Ryzen 9 7950X</p>
+          <div class="cpu-comparison">
+            <div class="cpu-bar bg-primary" style="width: 95%;">95%</div>
+          </div>
+
+          <p class="mb-1">Intel Core i9-14900K</p>
+          <div class="cpu-comparison">
+            <div class="cpu-bar bg-info" style="width: 93%;">93%</div>
+          </div>
+
+          <p class="mb-1">AMD Ryzen 7 7800X3D</p>
+          <div class="cpu-comparison">
+            <div class="cpu-bar bg-primary" style="width: 89%;">89%</div>
+          </div>
+
+          <p class="mb-1">Intel Core i7-14700K</p>
+          <div class="cpu-comparison">
+            <div class="cpu-bar bg-info" style="width: 87%;">87%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 mb-4">
+        <h3 class="mb-4">Popular GPU Performance Comparison</h3>
+        <div>
+          <p class="mb-1">NVIDIA RTX 4090</p>
+          <div class="gpu-comparison">
+            <div class="gpu-bar bg-success" style="width: 100%;">100%</div>
+          </div>
+
+          <p class="mb-1">AMD RX 7900 XTX</p>
+          <div class="gpu-comparison">
+            <div class="gpu-bar bg-danger" style="width: 92%;">92%</div>
+          </div>
+
+          <p class="mb-1">NVIDIA RTX 4080 SUPER</p>
+          <div class="gpu-comparison">
+            <div class="gpu-bar bg-success" style="width: 87%;">87%</div>
+          </div>
+
+          <p class="mb-1">AMD RX 7800 XT</p>
+          <div class="gpu-comparison">
+            <div class="gpu-bar bg-danger" style="width: 72%;">72%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <div class="container">
+    <h2 class="mb-4">Ready to Build Your Custom PC?</h2>
+    <p class="lead mb-5">Join thousands of PC enthusiasts who have built their dream machines with PC Build Hub</p>
+    <a href="/register" class="btn btn-light btn-lg px-5">Get Started For Free</a>
+  </div>
+</div>
+
+<div class="testimonials">
+  <div class="container">
+    <h2 class="text-center mb-5">What Our Users Say</h2>
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <div class="card testimonial-card shadow">
+          <div class="testimonial-text">"PC Build Hub saved me hours of research. Their compatibility checker helped me avoid making an expensive mistake with my first build."</div>
+          <div class="testimonial-author">- Michael T., Gamer</div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card testimonial-card shadow">
+          <div class="testimonial-text">"As a content creator, I needed a powerful workstation that could handle video editing. The custom build recommendations were spot on!"</div>
+          <div class="testimonial-author">- Sarah J., YouTuber</div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card testimonial-card shadow">
+          <div class="testimonial-text">"The price tracking feature helped me save over $300 on my gaming rig by alerting me when components went on sale."</div>
+          <div class="testimonial-author">- David K., PC Enthusiast</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
-  <p>© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+  <div class="container">
+    <div class="footer-links">
+      <a href="/about-us">About Us</a>
+      <a href="/contact">Contact</a>
+      <a href="/faq">FAQ</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms-of-service">Terms of Service</a>
+    </div>
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-discord"></i></a>
+    </div>
+    <p>© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+  </div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Budget slider functionality
+  const budgetRange = document.getElementById('budgetRange');
+  const budgetValue = document.getElementById('budgetValue');
+
+  budgetRange.addEventListener('input', function() {
+    budgetValue.textContent = this.value;
+  });
+
+  // Animation for performance bars on scroll
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animation trigger on page load
+    setTimeout(function() {
+      const bars = document.querySelectorAll('.cpu-bar, .gpu-bar');
+      bars.forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 100);
+      });
+    }, 500);
+  });
+</script>
 </body>
 </html>
