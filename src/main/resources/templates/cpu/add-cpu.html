@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="/">PC Build Hub</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -33,13 +33,13 @@
 
 <div class="container mt-4">
     <div class="page-header">
-        <h2 class="text-center">Edit CPU</h2>
+        <h2 class="text-center">Add CPU</h2>
     </div>
 
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <form th:action="@{/cpus/add}" method="post" th:object="${cpuDTO}" enctype="multipart/form-data" class="form-container needs-validation" novalidate>
-            <!-- Basic Information Section -->
+                <!-- Basic Information Section -->
                 <div class="form-section">
                     <h3 class="form-section-title">Basic Information</h3>
                     <div class="row g-3">
@@ -132,12 +132,12 @@
                         <input type="file" id="image" name="image" th:field="*{image}" accept="image/*" style="display: none;">
                         <span id="fileName" class="ms-2 text-muted">No file selected</span>
                     </div>
-                    <div class="form-text">
+                    <div class="form-text mb-2">
                         Recommended image size: 200x200 pixels. Maximum file size: 5MB. Supported formats: JPG, PNG, GIF.
                     </div>
                 </div>
 
-                <div class="action-buttons">
+                <div class="action-buttons mb-2">
                     <a href="/cpus" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary btn-submit">Add</button>
                 </div>
@@ -146,7 +146,7 @@
     </div>
 </div>
 
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="footer text-white py-4 mt-5">
     <div class="container text-center">
         <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
     </div>

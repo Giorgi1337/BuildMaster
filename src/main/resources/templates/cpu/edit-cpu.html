@@ -8,10 +8,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<body class="bg-light">
+<!-- Navbar with custom styles -->
+<nav class="navbar navbar-expand-lg navbar-dark">
   <div class="container">
-    <a class="navbar-brand" href="/">PC Build Hub</a>
+    <a class="navbar-brand fw-bold" href="/">PC Build Hub</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -39,7 +40,7 @@
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <form th:action="@{/cpus/edit/{id}(id=${cpuDTO.id})}" method="post" th:object="${cpuDTO}" enctype="multipart/form-data" class="form-container needs-validation" novalidate>
-      <!-- Basic Information Section -->
+        <!-- Basic Information Section -->
         <div class="form-section">
           <h3 class="form-section-title">Basic Information</h3>
           <div class="row g-3">
@@ -139,7 +140,7 @@
             <span id="fileName" class="ms-2 text-muted">No file selected</span>
           </div>
 
-          <div class="form-text">
+          <div class="form-text mb-2">
             Recommended image size: 200x200 pixels. Maximum file size: 5MB. Supported formats: JPG, PNG, GIF.
           </div>
         </div>
@@ -153,7 +154,7 @@
   </div>
 </div>
 
-<footer class="bg-dark text-white py-4 mt-5">
+<footer class="footer text-white py-4 mt-5">
   <div class="container text-center">
     <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
   </div>
@@ -166,21 +167,19 @@
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-
       reader.onload = function(e) {
         const imagePreview = document.getElementById('imagePreview');
         imagePreview.innerHTML = `<img src="${e.target.result}" alt="CPU Image Preview" class="img-fluid" style="max-height: 200px; width: auto;">`;
       }
-
       reader.readAsDataURL(file);
       document.getElementById('fileName').textContent = file.name;
     } else {
       const imagePreview = document.getElementById('imagePreview');
       imagePreview.innerHTML = `
-                <div class="image-preview-placeholder">
-                    <i class="bi bi-image" style="font-size: 2rem;"></i>
-                    <p>No image selected</p>
-                </div>`;
+          <div class="image-preview-placeholder">
+            <i class="bi bi-image" style="font-size: 2rem;"></i>
+            <p>No image selected</p>
+          </div>`;
       document.getElementById('fileName').textContent = 'No file selected';
     }
   });
