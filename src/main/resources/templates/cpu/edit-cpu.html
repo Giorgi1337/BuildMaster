@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit CPU - PC Build Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">PC Build Hub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/components">Components</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/cpus">CPUs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/builds">PC Builds</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <div class="page-header">
+    <h2 class="text-center">Edit CPU</h2>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <form th:action="@{/cpus/edit/{id}(id=${cpuDTO.id})}" method="post" th:object="${cpuDTO}" enctype="multipart/form-data" class="form-container needs-validation" novalidate>
+      <!-- Basic Information Section -->
+        <div class="form-section">
+          <h3 class="form-section-title">Basic Information</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Name*</label>
+              <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="e.g. AMD Ryzen 7 9800X3D" required>
+              <div class="invalid-feedback">Please enter the CPU name.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="model" class="form-label">Model</label>
+              <input type="text" id="model" class="form-control" th:field="*{model}" placeholder="e.g. 9800X3D">
+            </div>
+            <div class="col-md-6">
+              <label for="manufacturer" class="form-label">Manufacturer*</label>
+              <select id="manufacturer" class="form-select" th:field="*{manufacturer}" required>
+                <option value="">Select Manufacturer</option>
+                <option value="Intel" th:selected="${cpuDTO.manufacturer == 'Intel'}">Intel</option>
+                <option value="AMD" th:selected="${cpuDTO.manufacturer == 'AMD'}">AMD</option>
+                <option value="Apple" th:selected="${cpuDTO.manufacturer == 'Apple'}">Apple</option>
+                <option value="Other" th:selected="${cpuDTO.manufacturer == 'Other'}">Other</option>
+              </select>
+              <div class="invalid-feedback">Please select a manufacturer.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="price" class="form-label">Price ($)</label>
+              <input type="number" id="price" class="form-control" th:field="*{price}" placeholder="e.g. 99.99" step="0.01" min="0">
+              <div class="invalid-feedback">Please enter a valid price.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technical Specifications Section -->
+        <div class="form-section">
+          <h3 class="form-section-title">Technical Specifications</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="socket" class="form-label">Socket*</label>
+              <input type="text" id="socket" class="form-control" th:field="*{socket}" placeholder="e.g. AM5" required>
+              <div class="invalid-feedback">Please enter the socket type.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="cores" class="form-label">Cores*</label>
+              <input type="number" id="cores" class="form-control" th:field="*{cores}" placeholder="e.g. 4" min="1" required>
+              <div class="invalid-feedback">Please enter the number of cores.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="threads" class="form-label">Threads*</label>
+              <input type="number" id="threads" class="form-control" th:field="*{threads}" placeholder="e.g. 8" min="1" required>
+              <div class="invalid-feedback">Please enter the number of threads.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="tdp" class="form-label">TDP (W)</label>
+              <input type="number" id="tdp" class="form-control" th:field="*{tdp}" placeholder="e.g. 95" min="0">
+              <div class="invalid-feedback">Please enter a valid TDP value.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="baseClock" class="form-label">Base Clock (GHz)</label>
+              <input type="number" id="baseClock" class="form-control" th:field="*{baseClock}" placeholder="e.g. 3.5" min="0" step="0.1">
+              <div class="invalid-feedback">Please enter a valid base clock value.</div>
+            </div>
+            <div class="col-md-6">
+              <label for="boostClock" class="form-label">Boost Clock (GHz)</label>
+              <input type="number" id="boostClock" class="form-control" th:field="*{boostClock}" placeholder="e.g. 4.5" min="0" step="0.1">
+              <div class="invalid-feedback">Please enter a valid boost clock value.</div>
+            </div>
+            <!-- Integrated Graphics Checkbox -->
+            <div class="col-md-6">
+              <label for="integratedGraphics" class="form-label">Integrated Graphics</label>
+              <div class="form-check">
+                <input type="checkbox" id="integratedGraphics" class="form-check-input" th:field="*{integratedGraphics}">
+                <label class="form-check-label" for="integratedGraphics">Yes</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="form-section">
+          <h3 class="form-section-title">CPU Image</h3>
+          <div class="image-preview" id="imagePreview">
+            <!-- If an image exists, display it -->
+            <div th:if="${cpuDTO.image}" class="image-preview-container">
+              <img th:src="@{${cpuDTO.image}}" alt="CPU Image Preview" class="img-fluid" style="max-height: 200px; width: auto;">
+            </div>
+            <div th:unless="${cpuDTO.image}" class="image-preview-placeholder">
+              <i class="bi bi-image" style="font-size: 2rem;"></i>
+              <p>No image selected</p>
+            </div>
+          </div>
+
+          <!-- Hidden Image Input for Uploading New Image -->
+          <div class="mb-3">
+            <label for="image" class="custom-file-upload">
+              <i class="bi bi-upload"></i> Choose Image
+            </label>
+            <input type="file" id="image" name="image" th:field="*{image}" accept="image/*" style="display: none;">
+            <span id="fileName" class="ms-2 text-muted">No file selected</span>
+          </div>
+
+          <div class="form-text">
+            Recommended image size: 200x200 pixels. Maximum file size: 5MB. Supported formats: JPG, PNG, GIF.
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <a href="/cpus" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary btn-submit">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-dark text-white py-4 mt-5">
+  <div class="container text-center">
+    <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Image preview functionality
+  document.getElementById('image').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const imagePreview = document.getElementById('imagePreview');
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="CPU Image Preview" class="img-fluid" style="max-height: 200px; width: auto;">`;
+      }
+
+      reader.readAsDataURL(file);
+      document.getElementById('fileName').textContent = file.name;
+    } else {
+      const imagePreview = document.getElementById('imagePreview');
+      imagePreview.innerHTML = `
+                <div class="image-preview-placeholder">
+                    <i class="bi bi-image" style="font-size: 2rem;"></i>
+                    <p>No image selected</p>
+                </div>`;
+      document.getElementById('fileName').textContent = 'No file selected';
+    }
+  });
+
+  // Form validation
+  (function() {
+    'use strict';
+
+    var forms = document.querySelectorAll('.form-container');
+    Array.from(forms).forEach(function(form) {
+      form.addEventListener('submit', function(event) {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
+</body>
+</html>
