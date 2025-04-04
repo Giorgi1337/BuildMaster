@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PC Build Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="#">PC Build Hub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/cpus"><i class="fas fa-microchip me-2"></i> CPUs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/gpus"><i class="fas fa-memory me-2"></i> GPUs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/motherboards"><i class="fas fa-cogs me-2"></i> Motherboards</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/rams"><i class="fas fa-microchip me-2"></i> RAM</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/power-supplies"><i class="fas fa-plug me-2"></i> Power Supplies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" href="/pc-builds"><i class="fas fa-desktop me-2"></i> PC Builds</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="container">
+    <h1>Welcome to PC Build Hub</h1>
+    <p class="lead">Find and configure the best PC components for your build!</p>
+  </div>
+</header>
+
+<div class="container mt-5 content">
+  <div class="row text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card border-light">
+        <div class="card-body text-center">
+          <i class="fas fa-microchip fa-4x mb-3 text-primary"></i> <!-- CPU Icon -->
+          <h5 class="card-title mb-3">Browse CPUs</h5>
+          <p class="card-text mb-4">Find the best processors for your build.</p>
+          <a href="/cpus" class="btn btn-primary btn-lg shadow-sm">View CPUs</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card border-light">
+        <div class="card-body text-center">
+          <i class="fas fa-memory fa-4x mb-3 text-danger"></i> <!-- GPU Icon -->
+          <h5 class="card-title mb-3">Explore GPUs</h5>
+          <p class="card-text mb-4">Select from a variety of powerful graphics cards.</p>
+          <a href="/gpus" class="btn btn-danger btn-lg shadow-sm">View GPUs</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-lg hover-card border-light">
+        <div class="card-body text-center">
+          <i class="fas fa-cogs fa-4x mb-3 text-success"></i> <!-- Motherboard Icon -->
+          <h5 class="card-title mb-3">Motherboards</h5>
+          <p class="card-text mb-4">Find compatible motherboards for your setup.</p>
+          <a href="/motherboards" class="btn btn-success btn-lg shadow-sm">View Motherboards</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<footer>
+  <p>© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
