@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-6">
               <label for="manufacturer" class="form-label">Manufacturer*</label>
-              <select id="manufacturer" class="form-select" th:field="*{manufacturer}" required>
+              <select id="manufacturer" class="form-select" th:field="*{manufacturer}" required onchange="updateSocketOptions()">
                 <option value="">Select Manufacturer</option>
                 <option value="Intel" th:selected="${cpuDTO.manufacturer == 'Intel'}">Intel</option>
                 <option value="AMD" th:selected="${cpuDTO.manufacturer == 'AMD'}">AMD</option>
@@ -78,39 +78,116 @@
           <div class="row g-3">
             <div class="col-md-6">
               <label for="socket" class="form-label">Socket*</label>
-              <input type="text" id="socket" class="form-control" th:field="*{socket}" placeholder="e.g. AM5" required>
-              <div class="invalid-feedback">Please enter the socket type.</div>
+              <select id="socket" class="form-select" th:field="*{socket}" required>
+                <option value="">Select Socket</option>
+                <!-- Socket options based on common CPU sockets -->
+                <optgroup label="AMD">
+                  <option value="AM5">AM5</option>
+                  <option value="AM4">AM4</option>
+                  <option value="TR4">TR4</option>
+                  <option value="sTRX4">sTRX4</option>
+                </optgroup>
+                <optgroup label="Intel">
+                  <option value="LGA 1700">LGA 1700</option>
+                  <option value="LGA 1200">LGA 1200</option>
+                  <option value="LGA 1151">LGA 1151</option>
+                  <option value="LGA 2066">LGA 2066</option>
+                </optgroup>
+              </select>
+              <div class="invalid-feedback">Please select a socket type.</div>
             </div>
             <div class="col-md-6">
               <label for="cores" class="form-label">Cores*</label>
-              <input type="number" id="cores" class="form-control" th:field="*{cores}" placeholder="e.g. 4" min="1" required>
-              <div class="invalid-feedback">Please enter the number of cores.</div>
+              <select id="cores" class="form-select" th:field="*{cores}" required>
+                <option value="">Select Cores</option>
+                <option value="2">2 Cores</option>
+                <option value="4">4 Cores</option>
+                <option value="6">6 Cores</option>
+                <option value="8">8 Cores</option>
+                <option value="10">10 Cores</option>
+                <option value="12">12 Cores</option>
+                <option value="14">14 Cores</option>
+                <option value="16">16 Cores</option>
+                <option value="24">24 Cores</option>
+                <option value="32">32 Cores</option>
+                <option value="64">64 Cores</option>
+              </select>
+              <div class="invalid-feedback">Please select the number of cores.</div>
             </div>
             <div class="col-md-6">
               <label for="threads" class="form-label">Threads*</label>
-              <input type="number" id="threads" class="form-control" th:field="*{threads}" placeholder="e.g. 8" min="1" required>
-              <div class="invalid-feedback">Please enter the number of threads.</div>
+              <select id="threads" class="form-select" th:field="*{threads}" required>
+                <option value="">Select Threads</option>
+                <option value="2">2 Threads</option>
+                <option value="4">4 Threads</option>
+                <option value="8">8 Threads</option>
+                <option value="12">12 Threads</option>
+                <option value="16">16 Threads</option>
+                <option value="20">20 Threads</option>
+                <option value="24">24 Threads</option>
+                <option value="28">28 Threads</option>
+                <option value="32">32 Threads</option>
+                <option value="48">48 Threads</option>
+                <option value="64">64 Threads</option>
+                <option value="128">128 Threads</option>
+              </select>
+              <div class="invalid-feedback">Please select the number of threads.</div>
             </div>
             <div class="col-md-6">
               <label for="tdp" class="form-label">TDP (W)</label>
-              <input type="number" id="tdp" class="form-control" th:field="*{tdp}" placeholder="e.g. 95" min="0">
-              <div class="invalid-feedback">Please enter a valid TDP value.</div>
+              <select id="tdp" class="form-select" th:field="*{tdp}">
+                <option value="">Select TDP</option>
+                <option value="35">35W</option>
+                <option value="45">45W</option>
+                <option value="65">65W</option>
+                <option value="95">95W</option>
+                <option value="105">105W</option>
+                <option value="120">120W</option>
+                <option value="125">125W</option>
+                <option value="165">165W</option>
+                <option value="170">170W</option>
+                <option value="230">230W</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label for="baseClock" class="form-label">Base Clock (GHz)</label>
-              <input type="number" id="baseClock" class="form-control" th:field="*{baseClock}" placeholder="e.g. 3.5" min="0" step="0.1">
-              <div class="invalid-feedback">Please enter a valid base clock value.</div>
+              <select id="baseClock" class="form-select" th:field="*{baseClock}">
+                <option value="">Select Base Clock</option>
+                <option value="2.0">2.0 GHz</option>
+                <option value="2.5">2.5 GHz</option>
+                <option value="3.0">3.0 GHz</option>
+                <option value="3.2">3.2 GHz</option>
+                <option value="3.4">3.4 GHz</option>
+                <option value="3.5">3.5 GHz</option>
+                <option value="3.6">3.6 GHz</option>
+                <option value="3.8">3.8 GHz</option>
+                <option value="4.0">4.0 GHz</option>
+                <option value="4.2">4.2 GHz</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label for="boostClock" class="form-label">Boost Clock (GHz)</label>
-              <input type="number" id="boostClock" class="form-control" th:field="*{boostClock}" placeholder="e.g. 4.5" min="0" step="0.1">
-              <div class="invalid-feedback">Please enter a valid boost clock value.</div>
+              <select id="boostClock" class="form-select" th:field="*{boostClock}">
+                <option value="">Select Boost Clock</option>
+                <option value="3.5">3.5 GHz</option>
+                <option value="3.8">3.8 GHz</option>
+                <option value="4.0">4.0 GHz</option>
+                <option value="4.2">4.2 GHz</option>
+                <option value="4.4">4.4 GHz</option>
+                <option value="4.5">4.5 GHz</option>
+                <option value="4.6">4.6 GHz</option>
+                <option value="4.8">4.8 GHz</option>
+                <option value="5.0">5.0 GHz</option>
+                <option value="5.2">5.2 GHz</option>
+                <option value="5.6">5.6 GHz</option>
+              </select>
             </div>
-            <!-- Integrated Graphics Checkbox -->
+
+            <!-- Integrated Graphics Switch -->
             <div class="col-md-6">
-              <label for="integratedGraphics" class="form-label">Integrated Graphics</label>
-              <div class="form-check">
-                <input type="checkbox" id="integratedGraphics" class="form-check-input" th:field="*{integratedGraphics}">
+              <label class="form-label">Integrated Graphics</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="integratedGraphics" th:field="*{integratedGraphics}">
                 <label class="form-check-label" for="integratedGraphics">Yes</label>
               </div>
             </div>
@@ -123,7 +200,7 @@
           <div class="image-preview" id="imagePreview">
             <!-- If an image exists, display it -->
             <div th:if="${cpuDTO.image}" class="image-preview-container">
-              <img th:src="@{${cpuDTO.image}}" alt="CPU Image Preview" class="img-fluid" style="max-height: 200px; width: auto;">
+              <img th:src="@{${cpuDTO.image}}" alt="CPU Image Preview" class="img-fluid">
             </div>
             <div th:unless="${cpuDTO.image}" class="image-preview-placeholder">
               <i class="bi bi-image" style="font-size: 2rem;"></i>
@@ -131,7 +208,6 @@
             </div>
           </div>
 
-          <!-- Hidden Image Input for Uploading New Image -->
           <div class="mb-3">
             <label for="image" class="custom-file-upload">
               <i class="bi bi-upload"></i> Choose Image
@@ -145,7 +221,7 @@
           </div>
         </div>
 
-        <div class="action-buttons">
+        <div class="action-buttons mb-2">
           <a href="/cpus" class="btn btn-secondary">Cancel</a>
           <button type="submit" class="btn btn-primary btn-submit">Save Changes</button>
         </div>
@@ -169,7 +245,7 @@
       const reader = new FileReader();
       reader.onload = function(e) {
         const imagePreview = document.getElementById('imagePreview');
-        imagePreview.innerHTML = `<img src="${e.target.result}" alt="CPU Image Preview" class="img-fluid" style="max-height: 200px; width: auto;">`;
+        imagePreview.innerHTML = `<img src="${e.target.result}" alt="CPU Image Preview" class="img-fluid">`;
       }
       reader.readAsDataURL(file);
       document.getElementById('fileName').textContent = file.name;
@@ -183,7 +259,6 @@
       document.getElementById('fileName').textContent = 'No file selected';
     }
   });
-
   // Form validation
   (function() {
     'use strict';
