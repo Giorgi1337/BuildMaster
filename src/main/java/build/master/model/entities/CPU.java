@@ -1,16 +1,29 @@
 package build.master.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "cpus")
-public class CPU extends Component {
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class CPU {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String manufacturer;
+
+    private String model;
+    private Double price;
     private String socket;
     private Integer cores;
     private Integer threads;
