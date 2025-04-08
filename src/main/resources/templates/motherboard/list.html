@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Motherboards - PC Build Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/"><i class="bi bi-cpu-fill"></i>PC Build Hub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/components">Components</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/motherboards">Motherboards</a></li>
+        <li class="nav-item"><a class="nav-link" href="/builds">PC Builds</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4 content">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <h2><i class="bi bi-motherboard me-2 text-primary"></i>Motherboards</h2>
+    <a href="/motherboards/new" class="btn btn-primary">
+      <i class="bi bi-plus-circle me-1"></i> Add New Motherboard
+    </a>
+  </div>
+
+  <div class="filter-section mb-4">
+    <h5 class="mb-3"><i class="bi bi-funnel me-2"></i>Filter Motherboards</h5>
+    <form method="get">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Manufacturer</label>
+          <div th:each="manufacturer : ${manufacturers}" class="form-check">
+            <input type="checkbox" name="manufacturer" class="form-check-input"
+                   th:value="${manufacturer}"
+                   th:checked="${param.manufacturer != null and (param.manufacturer instanceof T(java.util.List) ? param.manufacturer.contains(manufacturer) : param.manufacturer == manufacturer)}">
+            <label class="form-check-label" th:text="${manufacturer}"></label>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="socket" class="form-label fw-bold">Socket</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-cpu"></i></span>
+            <input type="text" id="socket" name="socket" class="form-control"
+                   placeholder="e.g. AM4, LGA1700" th:value="${param.socket}">
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="chipset" class="form-label fw-bold">Chipset</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-chip"></i></span>
+            <input type="text" id="chipset" name="chipset" class="form-control"
+                   placeholder="e.g. B550, Z790" th:value="${param.chipset}">
+          </div>
+        </div>
+
+        <div class="col-12 d-flex justify-content-end gap-2">
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search me-2"></i>Apply Filters
+          </button>
+          <a href="/motherboards" class="btn btn-outline-secondary">
+            <i class="bi bi-x-circle me-2"></i>Clear Filters
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Motherboard Cards Section -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div th:each="motherboard : ${motherboards}" class="col">
+      <div class="card hover-card shadow h-100">
+        <div class="card-img-wrapper">
+          <img th:if="${motherboard.image != null}"
+               th:src="@{/motherboards/{id}/image(id=${motherboard.id})}"
+               class="card-img-top p-3"
+               th:alt="${motherboard.model}" />
+          <img th:if="${motherboard.image == null}"
+               th:src="@{/images/default-motherboard.png}"
+               class="card-img-top p-3"
+               alt="No image" />
+        </div>
+        <div class="card-body d-flex flex-column">
+          <div class="mb-2">
+            <span class="component-badge" th:text="${motherboard.manufacturer}"></span>
+          </div>
+          <h5 class="card-title" th:text="${motherboard.model}"></h5>
+          <div class="specs my-3">
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-cpu me-2 text-primary"></i>
+              <span><strong>Socket:</strong> <span th:text="${motherboard.socket}" class="ms-1"></span></span>
+            </div>
+            <div class="d-flex align-items-center mb-2" th:if="${motherboard.memorySlots != null}">
+              <i class="bi bi-memory me-2 text-primary"></i>
+              <span><strong>Memory Slots:</strong> <span th:text="${motherboard.memorySlots}" class="ms-1"></span></span>
+            </div>
+          </div>
+          <div class="mt-auto">
+            <div class="price-tag mb-3">
+              <span th:if="${motherboard.price != null}" class="badge bg-success fs-6 p-2">
+                            $<span th:text="${#numbers.formatDecimal(motherboard.price, 1, 2)}"></span>
+                        </span>
+              <span th:if="${motherboard.price == null}" class="text-muted fst-italic">Price not available</span>
+            </div>
+            <a th:href="@{/motherboards/{id}(id=${motherboard.id})}" class="btn btn-primary w-100">
+              <i class="bi bi-eye me-1"></i> View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <div th:if="${totalPages > 0}" class="pagination-controls d-flex justify-content-between align-items-center mt-4 p-3 bg-white rounded shadow-sm">
+    <span>Showing page <strong th:text="${currentPage + 1}"></strong> of <strong th:text="${totalPages}"></strong></span>
+    <div>
+      <a th:if="${currentPage > 0}"
+         th:href="@{/motherboards(page=${currentPage - 1}, manufacturer=${param.manufacturer}, socket=${param.socket}, chipset=${param.chipset})}"
+         class="btn btn-outline-primary btn-sm me-2">
+        <i class="bi bi-chevron-left"></i> Previous
+      </a>
+      <a th:if="${currentPage < totalPages - 1}"
+         th:href="@{/motherboards(page=${currentPage + 1}, manufacturer=${param.manufacturer}, socket=${param.socket}, chipset=${param.chipset})}"
+         class="btn btn-outline-primary btn-sm">
+        Next <i class="bi bi-chevron-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div th:if="${totalPages == 0}" class="text-center my-5 p-5 bg-white rounded shadow-sm">
+    <i class="bi bi-motherboard-fill text-primary fs-1 mb-3"></i>
+    <p class="lead">No motherboards available in the database</p>
+    <a href="/motherboards/new" class="btn btn-primary mt-3">
+      <i class="bi bi-plus-circle me-2"></i>Add Your First Motherboard
+    </a>
+  </div>
+</div>
+
+<footer class="footer text-white py-4 mt-5">
+  <div class="container text-center">
+    <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

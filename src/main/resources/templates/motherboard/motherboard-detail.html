@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Motherboard Details - PC Build Hub</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-light">
+<!-- Navbar with existing styles -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/">PC Build Hub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/components">Components</a></li>
+                <li class="nav-item"><a class="nav-link" href="/cpus">CPUs</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/motherboards">Motherboards</a></li>
+                <li class="nav-item"><a class="nav-link" href="/builds">PC Builds</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main content -->
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary"><i class="bi bi-motherboard me-2"></i>Motherboard Details</h2>
+    </div>
+
+    <div th:if="${message}" class="alert alert-info text-center" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow rounded-4 border-0">
+                <div class="card-header bg-white border-bottom">
+                    <h4 class="card-title mb-0 text-dark fw-semibold" th:text="${motherboard.name}">Motherboard Name</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card-img-wrapper mb-4 text-center">
+                        <div th:if="${motherboard.image != null}">
+                            <img th:src="@{/motherboards/{id}/image(id=${motherboard.id})}" alt="Motherboard Image" class="img-fluid rounded shadow-sm">
+                        </div>
+                        <div th:if="${motherboard.image == null}">
+                            <p class="text-muted">No image available</p>
+                        </div>
+                    </div>
+
+                    <ul class="list-group list-group-flush specs mb-3">
+                        <li class="list-group-item"><strong>Model:</strong> <span th:text="${motherboard.model}">Model</span></li>
+                        <li class="list-group-item"><strong>Manufacturer:</strong> <span th:text="${motherboard.manufacturer}">Manufacturer</span></li>
+                        <li class="list-group-item"><strong>Socket:</strong> <span th:text="${motherboard.socket}">Socket</span></li>
+                        <li class="list-group-item"><strong>Chipset:</strong> <span th:text="${motherboard.chipset}">Chipset</span></li>
+                        <li class="list-group-item"><strong>Form Factor:</strong> <span th:text="${motherboard.formFactor}">ATX</span></li>
+                        <li class="list-group-item"><strong>Memory Type:</strong> <span th:text="${motherboard.memoryType}">DDR4</span></li>
+                        <li class="list-group-item"><strong>Memory Slots:</strong> <span class="badge bg-primary" th:text="${motherboard.memorySlots != null ? motherboard.memorySlots : 'N/A'}">4</span></li>
+                        <li class="list-group-item"><strong>Max Memory:</strong> <span th:text="${motherboard.maxMemory != null ? motherboard.maxMemory + ' GB' : 'N/A'}">128 GB</span></li>
+
+                        <!-- Fix for pcie, m2, and sata slots - added null checks -->
+                        <li class="list-group-item" th:if="${motherboard.pciExpressSlots != null}">
+                            <strong>PCIe Slots:</strong> <span class="badge bg-info text-dark" th:text="${motherboard.pciExpressSlots}">3</span>
+                        </li>
+                        <li class="list-group-item" th:if="${motherboard.m2Slots != null}">
+                            <strong>M.2 Slots:</strong> <span class="badge bg-info text-dark" th:text="${motherboard.m2Slots}">2</span>
+                        </li>
+                        <li class="list-group-item" th:if="${motherboard.pciExpressSlots != null}">
+                            <strong>SATA Ports:</strong> <span class="badge bg-info text-dark" th:text="${motherboard.sataConnectors}">6</span>
+                        </li>
+
+                        <li class="list-group-item"><strong>Price:</strong> <span class="price-tag">$<span th:text="${motherboard.price}">199.99</span></span></li>
+                    </ul>
+
+                    <div class="d-flex flex-wrap justify-content-between mt-4">
+                        <a href="/motherboards" class="btn btn-outline-secondary mb-2"><i class="bi bi-arrow-left"></i> Back</a>
+                        <a th:href="@{/motherboards/{id}/edit(id=${motherboard.id})}" class="btn btn-primary mb-2"><i class="bi bi-pencil-square"></i> Edit</a>
+                        <form th:action="@{/motherboards/{id}/delete(id=${motherboard.id})}" method="post" class="d-inline" onsubmit="return confirmDelete();">
+                            <button type="submit" class="btn btn-danger mb-2"><i class="bi bi-trash"></i> Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer text-white py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/motherboard.js"></script>
+</body>
+</html>
