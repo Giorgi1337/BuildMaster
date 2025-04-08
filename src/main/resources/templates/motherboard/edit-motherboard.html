@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Motherboard - PC Build Hub</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">PC Build Hub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/components">Components</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/motherboards">Motherboards</a></li>
+                <li class="nav-item"><a class="nav-link" href="/builds">PC Builds</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="page-header">
+        <h2 class="text-center">Edit Motherboard</h2>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form th:action="@{/motherboards/{id}/edit(id=${motherboardId})}" method="post" th:object="${motherboardDTO}" enctype="multipart/form-data" class="form-container needs-validation" novalidate>
+
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Basic Information</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Name*</label>
+                            <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="e.g. ASUS ROG Strix X570" required>
+                            <div class="invalid-feedback">Please enter the motherboard name.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="model" class="form-label">Model</label>
+                            <input type="text" id="model" class="form-control" th:field="*{model}" placeholder="e.g. X570-E">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="manufacturer" class="form-label">Manufacturer*</label>
+                            <select id="manufacturer" class="form-select" th:field="*{manufacturer}" required>
+                                <option value="">Select Manufacturer</option>
+                                <option th:each="mfr : ${manufacturers}" th:value="${mfr}" th:text="${mfr}" th:selected="${motherboardDTO.manufacturer == mfr}"></option>
+                            </select>
+                            <div class="invalid-feedback">Please select a manufacturer.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="price" class="form-label">Price ($)</label>
+                            <input type="number" id="price" class="form-control" th:field="*{price}" placeholder="e.g. 299.99" step="0.01" min="0">
+                            <div class="invalid-feedback">Please enter a valid price.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Specifications -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Technical Specifications</h3>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="socket" class="form-label">Socket*</label>
+                            <select id="socket" class="form-select" th:field="*{socket}" required onchange="updateChipsetOptions()">
+                                <option value="">Select Socket</option>
+                                <option value="LGA1200" th:selected="${motherboardDTO.socket == 'LGA1200'}">LGA1200</option>
+                                <option value="LGA1700" th:selected="${motherboardDTO.socket == 'LGA1700'}">LGA1700</option>
+                                <option value="AM4" th:selected="${motherboardDTO.socket == 'AM4'}">AM4</option>
+                                <option value="AM5" th:selected="${motherboardDTO.socket == 'AM5'}">AM5</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the socket type.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="chipset" class="form-label">Chipset*</label>
+                            <select id="chipset" class="form-select" th:field="*{chipset}" required
+                                    th:attr="data-current-chipset=${motherboardDTO.chipset}">
+                                <option value="">Select Chipset</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the chipset type.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="formFactor" class="form-label">Form Factor*</label>
+                            <select id="formFactor" class="form-select" th:field="*{formFactor}" required>
+                                <option value="">Select Form Factor</option>
+                                <option value="ATX" th:selected="${motherboardDTO.formFactor == 'ATX'}">ATX</option>
+                                <option value="Micro ATX" th:selected="${motherboardDTO.formFactor == 'Micro ATX'}">Micro ATX</option>
+                                <option value="Mini ITX" th:selected="${motherboardDTO.formFactor == 'Mini ITX'}">Mini ITX</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the form factor.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="memoryType" class="form-label">Memory Type*</label>
+                            <select id="memoryType" class="form-select" th:field="*{memoryType}" required>
+                                <option value="">Select Memory Type</option>
+                                <option value="DDR3" th:selected="${motherboardDTO.memoryType == 'DDR3'}">DDR3</option>
+                                <option value="DDR4" th:selected="${motherboardDTO.memoryType == 'DDR4'}">DDR4</option>
+                                <option value="DDR5" th:selected="${motherboardDTO.memoryType == 'DDR5'}">DDR5</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the memory type.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="memorySlots" class="form-label">Memory Slots*</label>
+                            <select id="memorySlots" class="form-select" th:field="*{memorySlots}" required>
+                                <option value="">Select Memory Slots</option>
+                                <option value="2" th:selected="${motherboardDTO.memorySlots == 2}">2</option>
+                                <option value="4" th:selected="${motherboardDTO.memorySlots == 4}">4</option>
+                                <option value="6" th:selected="${motherboardDTO.memorySlots == 6}">6</option>
+                                <option value="8" th:selected="${motherboardDTO.memorySlots == 8}">8</option>
+                                <option value="10" th:selected="${motherboardDTO.memorySlots == 10}">10</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the number of memory slots.</div>
+                        </div>
+
+                        <!-- Max Memory (GB) -->
+                        <div class="col-md-6">
+                            <label for="maxMemory" class="form-label">Max Memory (GB)*</label>
+                            <select id="maxMemory" class="form-select" th:field="*{maxMemory}" required>
+                                <option value="">Select Max Memory</option>
+                                <option value="32" th:selected="${motherboardDTO.maxMemory == 32}">32 GB</option>
+                                <option value="64" th:selected="${motherboardDTO.maxMemory == 64}">64 GB</option>
+                                <option value="128" th:selected="${motherboardDTO.maxMemory == 128}">128 GB</option>
+                                <option value="256" th:selected="${motherboardDTO.maxMemory == 256}">256 GB</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the maximum memory supported.</div>
+                        </div>
+
+                        <!-- SATA Connectors -->
+                        <div class="col-md-6">
+                            <label for="sataConnectors" class="form-label">SATA Connectors</label>
+                            <select id="sataConnectors" class="form-select" th:field="*{sataConnectors}">
+                                <option value="">Select SATA Connectors</option>
+                                <option value="2" th:selected="${motherboardDTO.sataConnectors == 2}">2</option>
+                                <option value="4" th:selected="${motherboardDTO.sataConnectors == 4}">4</option>
+                                <option value="6" th:selected="${motherboardDTO.sataConnectors == 6}">6</option>
+                                <option value="8" th:selected="${motherboardDTO.sataConnectors == 8}">8</option>
+                            </select>
+                        </div>
+
+                        <!-- M.2 Slots -->
+                        <div class="col-md-6">
+                            <label for="m2Slots" class="form-label">M.2 Slots</label>
+                            <select id="m2Slots" class="form-select" th:field="*{m2Slots}">
+                                <option value="">Select M.2 Slots</option>
+                                <option value="1" th:selected="${motherboardDTO.m2Slots == 1}">1</option>
+                                <option value="2" th:selected="${motherboardDTO.m2Slots == 2}">2</option>
+                                <option value="3" th:selected="${motherboardDTO.m2Slots == 3}">3</option>
+                            </select>
+                        </div>
+
+                        <!-- PCI Express Slots -->
+                        <div class="col-md-6">
+                            <label for="pciExpressSlots" class="form-label">PCI Express Slots</label>
+                            <select id="pciExpressSlots" class="form-select" th:field="*{pciExpressSlots}">
+                                <option value="">Select PCI Express Slots</option>
+                                <option value="1" th:selected="${motherboardDTO.pciExpressSlots == 1}">1</option>
+                                <option value="2" th:selected="${motherboardDTO.pciExpressSlots == 2}">2</option>
+                                <option value="3" th:selected="${motherboardDTO.pciExpressSlots == 3}">3</option>
+                                <option value="4" th:selected="${motherboardDTO.pciExpressSlots == 4}">4</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Wi-Fi Support -->
+                            <label for="wifi" class="form-label">Wi-Fi Support*</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="wifi" name="wifi" th:field="*{wifi}" value="true" th:checked="${motherboardDTO.wifi == 'Yes'}">
+                                <input type="hidden" name="_wifi" value="on">
+                                <label class="form-check-label" for="wifi">Yes</label>
+                            </div>
+                            <div class="invalid-feedback">Please specify Wi-Fi support.</div>
+
+                            <!-- Bluetooth Support -->
+                            <label for="bluetooth" class="form-label">Bluetooth Support*</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="bluetooth" name="bluetooth" th:field="*{bluetooth}" value="true" th:checked="${motherboardDTO.bluetooth == 'Yes'}">
+                                <input type="hidden" name="_bluetooth" value="on">
+                                <label class="form-check-label" for="bluetooth">Yes</label>
+                            </div>
+                            <div class="invalid-feedback">Please specify Bluetooth support.</div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Motherboard Image</h3>
+                    <div class="image-preview" id="imagePreview">
+                        <!-- Show existing image if available -->
+                        <img th:if="${motherboardDTO.image != null}" th:src="@{/motherboards/{id}/image(id=${motherboardId})}" alt="Current motherboard image" class="current-image">
+                        <div th:unless="${motherboardDTO.image != null}" class="image-preview-placeholder">
+                            <i class="bi bi-image" style="font-size: 2rem;"></i>
+                            <p>No image selected</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="custom-file-upload">
+                            <i class="bi bi-upload"></i> Choose New Image
+                        </label>
+                        <input type="file" id="image" name="image" accept="image/*" style="display: none;">
+                        <span id="fileName" class="ms-2 text-muted">No file selected</span>
+                    </div>
+                    <div class="form-text mb-2">
+                        Recommended image size: 200x200 pixels. Maximum file size: 5MB. Supported formats: JPG, PNG, GIF.
+                        Leave empty to keep current image.
+                    </div>
+                </div>
+
+                <div class="action-buttons mb-2">
+                    <a href="/motherboards" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary btn-submit">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer text-white py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-0">© <span th:text="${T(java.time.LocalDate).now().getYear()}"></span> PC Build Hub. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/motherboard.js"></script>
+
+</body>
+</html>
