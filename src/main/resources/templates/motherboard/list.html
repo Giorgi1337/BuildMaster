@@ -81,15 +81,13 @@
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <div th:each="motherboard : ${motherboards}" class="col">
       <div class="card hover-card shadow h-100">
-        <div class="card-img-wrapper">
-          <img th:if="${motherboard.image != null}"
-               th:src="@{/motherboards/{id}/image(id=${motherboard.id})}"
+        <div class="card-img-wrapper position-relative">
+          <img th:src="${motherboard.image != null ? '/motherboards/' + motherboard.id + '/image' : '/static/images/placeholder-motherboard.png'}"
                class="card-img-top p-3"
-               th:alt="${motherboard.model}" />
-          <img th:if="${motherboard.image == null}"
-               th:src="@{/images/default-motherboard.png}"
-               class="card-img-top p-3"
-               alt="No image" />
+               th:alt="${motherboard.image != null ? motherboard.model : 'Placeholder Motherboard Image'}" />
+          <div th:if="${motherboard.image == null}" class="placeholder-text d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 bg-light text-center">
+            <span class="text-muted">No Image Available</span>
+          </div>
         </div>
         <div class="card-body d-flex flex-column">
           <div class="mb-2">

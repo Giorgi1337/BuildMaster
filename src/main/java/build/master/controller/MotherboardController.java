@@ -35,7 +35,7 @@ public class MotherboardController {
             @RequestParam(required = false) String chipset,
             @RequestParam(required = false) String manufacturer,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "9") int size,
             @RequestParam(defaultValue = "name") String sort,
             Model model) {
 

@@ -37,7 +37,7 @@ public class CPUController {
                            @RequestParam(required = false) String manufacturer,
                            @RequestParam(required = false) Integer cores,
                            @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "10") int size,
+                           @RequestParam(defaultValue = "9") int size,
                            @RequestParam(defaultValue = "name") String sortBy,
                            @RequestParam(defaultValue = "asc") String sortOrder,
                            Model model) {

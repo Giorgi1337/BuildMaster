@@ -29,7 +29,7 @@
 
 <div class="container mt-4 content">
     <div class="page-header d-flex justify-content-between align-items-center">
-        <h2><i class="bi bi-cpu me-2 text-primary"></i>CPU Components</h2>
+        <h2><i class="bi bi-cpu me-2 text-primary"></i>CPU List</h2>
         <a href="/cpus/add" class="btn btn-primary">
             <i class="bi bi-plus-circle me-1"></i> Add New CPU
         </a>
@@ -76,15 +76,13 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div th:each="cpu : ${cpus}" class="col">
             <div class="card hover-card shadow h-100">
-                <div class="card-img-wrapper">
-                    <img th:src="@{/cpus/image/{id}(id=${cpu.id})}"
+                <div class="card-img-wrapper position-relative">
+                    <img th:src="${cpu.image != null ? '/cpus/image/' + cpu.id : '/static/images/placeholder-cpu.png'}"
                          class="card-img-top p-3"
-                         th:alt="${cpu.model}"
-                         th:if="${cpu.image != null}" />
-                    <img th:src="@{/static/images/default-cpu.png}"
-                         class="card-img-top p-3"
-                         th:alt="Default CPU Image"
-                         th:if="${cpu.image == null}" />
+                         th:alt="${cpu.image != null ? cpu.model : 'Placeholder CPU Image'}" />
+                    <div th:if="${cpu.image == null}" class="placeholder-text d-flex justify-content-center align-items-center position-absolute top-0 start-0 w-100 h-100 bg-light text-center">
+                        <span class="text-muted">No Image Available</span>
+                    </div>
                 </div>
                 <div class="card-body d-flex flex-column">
                     <div class="mb-2">
